@@ -1,0 +1,97 @@
+\documentclass[reprint,amsmath,amssymb,aps,pre,showkeys,showpacs]{revtex4-1}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{bm}
+\usepackage{xcolor}
+\usepackage{algpseudocode}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{hyperref}
+\usepackage{cleveref}
+\usepackage[export]{adjustbox}
+
+\definecolor{light-gray}{gray}{0.95}
+\newcommand{\code}[1]{\colorbox{light-gray}{\texttt{#1}}}
+\newcommand{\highlight}[1]{{\color{red}{#1}}} % convinient for revised version
+
+\begin{document}
+\preprint{APS/123-QED}
+
+\author{Vasily~Postnicov\textsuperscript{1,3}}
+\author{Marina~V.~Karsanina\textsuperscript{1,2}}
+\author{Aleksey~Khlyupin\textsuperscript{1,2}}
+\author{Kirill~M.~Gerke\textsuperscript{1,2}}
+\email{kg@ifz.ru}
+
+\affiliation{\textsuperscript{1}Moscow Institute of Physics and Technology,
+  Dolgoprudny, 141701, Russia}
+\affiliation{\textsuperscript{2}Schmidt Institute of Physics of the Earth of
+  Russian Academy of Sciences, Moscow, 107031, Russia}
+\affiliation{\textsuperscript{3}Dokuchaev Soil Science Institute, Moscow, 119017, Russia}
+
+\title{Look, we can do something}
+
+\begin{abstract}
+We can do some calculations and tell the world about it.
+\end{abstract}
+
+%\keywords{Arrays, multiplication, addition}
+
+\maketitle
+
+\section{Image generation}
+In order to generate a simply connected shape we follow the procedure stated
+below:
+\begin{enumerate}
+\item Generate low-dimensional grayscale image of a shape using GAN
+\item Upscale the result of the previous step
+\item Apply a 50\% threshold to convert the image to black-and-white.
+\item Perform connected component labeling for the white phase. Fill all but
+  the largest (by volume) component with black.
+\item Do the previous step for the black phase, filling smaller components with
+  white.
+\end{enumerate}
+
+Our GAN network is designed as follows: the generator network consists of 4
+convolutional layers, numerated as 0~--~an input layer, 1,2~--~hidden layers,
+3~--~an output layer. The input layer and each hidden layer perform upsampling
+of the input by a factor of 2 and convolve it with $n$ $8 \times 8$ kernels
+where $n = 40 \cdot 2^{2-k}$, $k \in \{0, 1, 2\}$ being the number of the
+layer. The input layer accepts a vector of 100 numbers sampled from the standard
+normal distribution. The output layer produces $92 \times 92$ grayscale image of
+a shape. There is a batch normalization unit followed by ReLU activation after
+each layer except the last. The last unit follows by tanh activation unit.
+
+The descriminator network is similar and also consists of 4 layers. The input
+layer and each hidden layer convolve the input with $n$ $8 \times 8$ kernels
+where $n = 40 \cdot 2^{k}$, $k \in \{0, 1, 2\}$ being the number of the layer
+and when perform downsampling by a factor of 2. Finally, the output layer
+produces the value which calssifies the output as real of fake. Each layer but
+the last is followed by a batch normalization unit and then Leaky ReLU
+activation with the coefficient $0.2$. The output layer is activated by sigmoid
+function. The graphical model of out network is on \highlight{figure}.
+
+In this work, we train three GANs using three different sets of hand-drawn
+shapes, each set consisting 100 images. Also, an additional GAN is trained using
+MNIST dataset. Networks are trained by minimizing binary cross entropy loss for the both
+generator and discriminator. The training is performed in batches of 10 images
+(a batch of real images following a batch of fakes) for 3000 epochs (3 for the
+MNIST set). To diversify our small set of real shapes each shape is rotated by a
+random angle around its center or can be randomly (with probability $1/2$)
+flipped along horizontal and vertical axes.
+
+We use ADAM optimizer with learning rate $2 \cdot 10^{-4}$ and $l^2$
+regularization coefficient $10^{-4}$ to minimize the loss functions for the both
+networks in a GAN.
+
+Results of work of trained generator networks can be seen in the
+\cref{sec:results}.
+
+\section{Results}
+\labels{sec:results}
+AAA
+
+\bibliography{paper}
+\end{document}
