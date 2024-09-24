@@ -49,8 +49,9 @@ below:
   GAN\cite{goodfellow2020generative}.
 \item Upscale the result of the previous step.
 \item Apply a 50\% threshold to convert the image to black-and-white.
-\item Perform connected component labeling \highlight{how} for the white phase. Fill all but
-  the largest (by volume) component with black.
+\item Perform connected component labeling (using Hoshen-Kopelman
+  algorithm\cite{hoshen1976percolation}, for example) for the white phase. Fill
+  all but the largest (by volume) component with black.
 \item Do the previous step for the black phase, filling all but the largest
   components with white.
 \end{enumerate}
@@ -117,11 +118,12 @@ name in gray):
 \item Shapes consisting of thin lines and having very low convexity, \code{thin}.
 \end{itemize}
 
-Final results, upsampled \highlight{how} to $1000 \times 1000$ pixels are on
+Final results, upsampled to $1000 \times 1000$ pixels using \code{convert}
+utility from ImageMagick\cite{imagemagick} package are on
 \cref{fig:images-gan}. Also we provide our networks made in PyTorch along with a
 Jupyter notebook which explains how to use them in supplementary materials to
-this paper. An archive with 4000 images generates by those networks can be
-downloaded from our \highlight{repository}.
+this paper. An archive with 4000 images generates by those networks is freely
+available on Github\cite{shapes-dataset}.
 
 \begin{figure*}[tp]
   \centering
