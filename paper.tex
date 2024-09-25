@@ -142,7 +142,27 @@ available on Github\cite{shapes-dataset}.
 To quantify variety of our shapes we provide a scatter plot \cref{fig:e-r} of
 our shapes in elongation-roundness ($E$-$R$) space. We also build a histogram of
 distribution of the shape factor $F = (E+R)/2$ proposed by \highlight{Karsanina}
-et~al.\cite{PLoS_ONE} for our dataset.
+et~al.\cite{PLoS_ONE} for our dataset. In the histogram we adopt the authors'
+morphology classification present in \cref{tab:morph-classes}.
+\begin{table*}[!htp]
+  \centering
+  \begin{tabular}{|c|c|}
+    \hline
+    Morphology class & Shape factor \\
+    \hline
+    Elongated dissected & 0.2 - 0.4 \\
+    \hline
+    Isometric dissected & 0.4 - 0.6 \\
+    \hline
+    Isometric slightly dissected & 0.6 - 0.8 \\
+    \hline
+    Round & 0.8 - 1 \\
+    \hline
+  \end{tabular}
+  \caption{Different morphology classes and corresponding shape factors}
+  \label{tab:morph-classes}
+\end{table*}
+
 \begin{figure*}[tp]
   \centering
   \includegraphics[width=0.45\linewidth]{images/roundness-elongation.png}
